@@ -1,4 +1,4 @@
-package com.scrap_app
+package com.scrap
 
 import android.app.Application
 import com.facebook.react.PackageList

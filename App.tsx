@@ -1,8 +1,13 @@
 import messaging from '@react-native-firebase/messaging';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Mensagem recebida em segundo plano:', remoteMessage);
+  // Aqui você pode, por exemplo, salvar no storage ou logar.
+});
 export default function App() {
+  const [ token, setToken ] = useState("");
   useEffect(() => {
     // Solicita permissão
     const requestPermission = async () => {
@@ -14,7 +19,7 @@ export default function App() {
       if (enabled) {
         console.log('Permissão para notificações concedida!');
         const token = await messaging().getToken();
-        console.log('FCM Token:', token);
+        setToken(token);
       }
     };
 
@@ -30,7 +35,7 @@ export default function App() {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>App com FCM!</Text>
+      <Text>Token: {token}</Text>
     </View>
   );
 }
